@@ -47,9 +47,17 @@ def inputpage():
   
 @app.route("/statuspage",methods=["GET"])
 def statuspage():
-  status = request.args.get("textinput")
-  return render_template("statuspage.html",status_temp = status)
+  status = request.args.get("input")
+  return render_template("statuspage.html", status_temp = status)
   
+@app.route("/formpage")
+def formpage():
+  return render_template("formpage.html")
 
+@app.route("/submit", methods=["POST"])
+def submit():
+  username = request.form.get("username")
+  password = request.form.get("password")
+  return render_template("submit.html", username_temp = username, password_temp = password )
 if __name__ == "__main__":
-	app.run(debug=True)                    
+	app.run(debug=True)
