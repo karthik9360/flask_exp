@@ -58,6 +58,12 @@ def formpage():
 def submit():
   username = request.form.get("username")
   password = request.form.get("password")
-  return render_template("submit.html", username_temp = username, password_temp = password )
+  email = request.form.get("email")
+  age = request.form.get("age")
+  gender = request.form.get("gender")
+  mobile = request.form.get("mobile")
+  return render_template("submit.html", username_temp = username, password_temp = password, email_temp = email, age_temp = age, gender_temp = gender, mobile_temp = mobile )
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
