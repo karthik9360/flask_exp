@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="path/to/sqlite.js"></script>
+    <title>Save User Data in SQLite</title>
+</head>
+<body>
+    <h1>Save User Data in SQLite</h1>
+
+    <form action="/displaypage" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        <br><br>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        <br><br>
+        <label for="mobile">Mobile:</label>
+        <input type="tel" id="mobile" name="mobile" required>
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+	<div id="output"></div>
+
+    <script>
+        var db = new SQLite.Database();
+
+        db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, password TEXT, email TEXT, age INTEGER, gender TEXT, mobile TEXT)");
+
+        function saveUserData() {
+            var name = document.getElementById('name').value;
+            var password = document.getElementById('password').value;
+            var email = document.getElementById('email').value;
+            var age = document.getElementById('age').value;
+            var gender = document.getElementById('gender').value;
+            var mobile = document.getElementById('mobile').value;
+
+            db.run("INSERT INTO users (name, password, email, age, gender, mobile) VALUES (?, ?, ?, ?, ?, ?)", [name, password, email, age, gender, mobile]);
+
+            displayData();
+        }
+
+        function displayData() {
+            var outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = "<h2>Saved User Data:</h2>";
+
+            db.each("SELECT * FROM users", function (row) {
+                outputDiv.innerHTML += "<p>Name: " + row.name + ", Email: " + row.email + ", Age: " + row.age + ", Gender: " + row.gender + ", Mobile: " + row.mobile + "</p>";
+            });
+        }
+    </script>
+
+</body>
+</html>

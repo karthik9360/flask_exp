@@ -1,5 +1,8 @@
 from flask import Flask, render_template, redirect, request
 import datetime
+import sqlite3
+
+sqliteConnection = sqlite3.connect("sql.db")
 
 app = Flask(__name__)
 
@@ -64,6 +67,20 @@ def submit():
   mobile = request.form.get("mobile")
   return render_template("submit.html", username_temp = username, password_temp = password, email_temp = email, age_temp = age, gender_temp = gender, mobile_temp = mobile )
 
+@app.route("/savedata")
+def savedata():
+  return render_template("savedata.html")
+ 
+@app.route("/displaypage", methods=["POST"])
+def display():
+  username = request.form.get("name")
+  password = request.form.get("password")
+  email = request.form.get("email")
+  age = request.form.get("age")
+  gender = request.form.get("gender")
+  mobile = request.form.get("mobile")
+  return render_template("displaypage.html", username_temp = username, password_temp = password, email_temp = email, age_temp = age, gender_temp = gender, mobile_temp = mobile )
 
+  
 if __name__ == "__main__":
 	app.run(debug=True)
